@@ -19,11 +19,16 @@ public:
 	void push_back(int val);
 	void push_front(int val);
 	void insert(int idx, int val); 
+
+	//Vector Homework (5 Medium Challenges)
+	/*--------------------------------*/
 	void right_rotation();
 	void right_rotation(int);
 	void left_rotation();
 	int remove(int idx);
 	int find_transposition(int val);
+	/*-------------------------------*/
+
 	~Vector();
 };
 
