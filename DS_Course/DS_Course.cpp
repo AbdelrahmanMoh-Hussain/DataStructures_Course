@@ -2,72 +2,121 @@
 //
 
 #include <iostream>
-#include "Vector.h"
-#include "LinkedList.h"
+#include <string>
+#include <vector>
+#include "ArrayStack.h"
+#include"LinkedListStack.h"
+//#include "TwoStackArray.h"
 using namespace std;
 
 
-class Node {
-public:
-	int data;
-	Node* next = nullptr;
+int precedence(char op) {
+	if (op == '+' || op == '-')
+	{
+		return 1;
+	}
+	else if (op == '*' || op == '/')
+	{
+		return 2;
+	}
+	else if (op == '^')
+	{
+		return 3;
+	}
+	return 0;
+}
 
-	Node(int data) : data(data) {}
-	void static print(Node* head) {
-		if (head == nullptr)
+string infixtoPostfix(string& infix) {
+	ArrayStack st(10);
+	string postfix = "";
+	infix += '-';
+	st.push('#');
+	for (int i = 0; i < infix.size(); i++)
+	{
+		if ((infix[i] == '+' || infix[i] == '-' || infix[i] == '*' || infix[i] == '/' || infix[i] == '^'))
 		{
-			cout << endl;
-			return;
+			while (st.peek() != '(' && precedence(st.peek()) >= precedence(infix[i]) && !(st.peek() == '^' && infix[i] == '^'))
+			{
+				postfix += st.peek();
+				st.pop();
+			}
+			st.push(infix[i]);
 		}
-		cout << head->data << ' ';
-		head = head->next;
-		print(head);
-	}
-	void static printReversed(Node* head) {
-		if (head == nullptr)
+		else if (infix[i] == '(')
 		{
-			return;
+			/*string subInfix = "";
+			for (int j = i + 1; j < infix.size(); j++)
+			{
+				i++;
+				if (infix[i] == ')')
+				{
+					break;
+				}
+				subInfix += infix[i];
+			}
+			postfix += infixtoPostfix(subInfix);*/
+			st.push(infix[i]);
 		}
-		printReversed(head->next);
-		cout << head->data << ' ';
-	}
-	void static print1(Node* head) {
-		for (; head != nullptr; head = head->next)
+		else if (infix[i] == ')')
 		{
-			cout << head->data << ' ';
+			while (st.peek() != '(')
+			{
+				postfix += st.peek();
+				st.pop();
+			}
+			st.pop();
 		}
-		cout << endl;
+		else
+		{
+			postfix += infix[i];
+		}
 	}
-};
 
-Node* find(int val, Node* head) {
-	while (head != nullptr) {
-		if (head->data == val)
+	return postfix;
+}
+
+string infixtoPrefix(string infix)
+{
+	ArrayStack st(10);
+	string reversedPrefix = "";
+	for (int i = infix.size(); i >= 0; i--)
+	{
+		if ((infix[i] == '+' || infix[i] == '-' || infix[i] == '*' || infix[i] == '/' || infix[i] == '^'))
 		{
-			return head;
+			while (!st.isEmpty())
+			{
+				if (precedence(st.peek()) > precedence(infix[i]) || precedence(st.peek()) == precedence(infix[i]) && infix[i] == '^')
+				{
+					reversedPrefix += st.peek();
+					st.pop();
+				}
+				else
+				{
+					break;
+				}
+			}
+			st.push(infix[i]);
 		}
-		head = head->next;
+		else
+		{
+			reversedPrefix += infix[i];
+		}
 	}
-	return nullptr;
+	while (!st.isEmpty())
+	{
+		reversedPrefix += st.peek();
+		st.pop();
+	}
+	string prefix = "";
+	for (int i = reversedPrefix.size(); i >= 0; i--)
+	{
+		prefix += reversedPrefix[i];
+	}
+	return prefix;
 }
 
 int main()
 {
-	Node* node1 = new Node(6);
-	Node* node2 = new Node(10);
-	Node* node3 = new Node(8);
-	Node* node4 = new Node(15);
-
-	node1->next = node2;
-	node2->next = node3;
-	node3->next = node4;
-	node4->next = nullptr;
-
-	Node::print(node1);
-	cout << "---------------------" << endl;
-	Node::printReversed(node1);
-	cout << "\n---------------------" << endl;
-	Node::print1(node1);
-
-	
+	cout << infixtoPrefix("4^3^2") << endl;
 }
+
