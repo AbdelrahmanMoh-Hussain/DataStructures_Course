@@ -194,14 +194,3 @@ void ArrayStack::removeDupl(string str)
 	}
 }
 
-void ArrayStack::insertBottom(int value)
-{
-	cout << elements << endl;
-	for (int i = elements; i > 0; i--)
-	{
-		cout << arr[i] << endl;
-		arr[i] = arr[i - 1];
-	}
-	arr[0] = value;
-	elements++;
-}

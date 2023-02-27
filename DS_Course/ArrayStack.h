@@ -31,6 +31,5 @@ public:
 	void removeDupl(string str);
 
 	//Mid-Hard Homework
-	void insertBottom(int value);
 };
 

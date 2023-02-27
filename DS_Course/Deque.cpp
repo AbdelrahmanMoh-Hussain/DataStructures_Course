@@ -7,7 +7,7 @@ int Deque::prev(int pos)
 {
 	if (pos == 0)
 	{
-		pos = size - 1;
+		pos = size;
 	}
 	else 
 	{

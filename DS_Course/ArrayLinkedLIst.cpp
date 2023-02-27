@@ -117,7 +117,7 @@ void ArrayLinkedList::setValue(int value, int idx)
 		temp->next = newNode;
 	}
 
-	getIdx(idx, true)->data = value;
+	//getIdx(idx, true)->data = value;
 }
 
 int ArrayLinkedList::getValue(int idx)
@@ -144,8 +144,8 @@ int ArrayLinkedList::getValue(int idx)
 
 void ArrayLinkedList::print()
 {
-	Node* temp = head->next;
-	for (int i = 0; i < length; ++i)
+	Node* temp = head;
+	for (int i = 0; i < length; i++)
 	{
 		if (temp && i == temp->idx)
 		{
@@ -160,7 +160,7 @@ void ArrayLinkedList::print()
 
 void ArrayLinkedList::printNonZero()
 {
-	for (Node* temp = head->next; temp ; temp = temp->next)
+	for (Node* temp = head; temp ; temp = temp->next)
 	{
 		cout << temp->data << ' ';
 	}
